@@ -14,30 +14,37 @@ let lista=JSON.parse(localStorage.getItem('estudiantes'))
 document.addEventListener('DOMContentLoaded',pintar)
 
 registrar.addEventListener('click',()=>{   
-    if(nombre.value=='' || curso.value=='' || genero.value=='' || nota1.value=='' || nota2.value=='' || nota3.value==''){
-        alert('hay notas vacias')
+    if(nombre.value=='' || curso.value=='' || genero.value=='' || nota1.value=='' || nota2.value=='' || nota3.value=='' ||nota1.value<0 || nota1.value>5 ||nota2.value<0 || nota2.value>5 ||nota3.value<0 || nota3.value>5){
+        alert('hay notas vacias o notas mal digitadas')
     } else{
     promedio=+((+nota1.value+ +nota2.value+ +nota3.value)/3).toFixed(2)
     promedio>=3.5?estado='Aprobado':estado='Reprobado'
-    }
     if (lista==null){
-            myBoys=[]
-            myBoys.push({nombre:nombre.value,curso:curso.value,genero:genero.value,nota1:nota1.value,nota2:nota2.value,nota3:nota3.value,promedio:promedio,estado:estado})
-            localStorage.setItem('estudiantes',JSON.stringify(myBoys))
-            pintar()
-           
-    }else{
-            myBoys=[]
-            for(i=0;i<lista.length;i++){
-                myBoys.push(lista[i])
-                console.log(myBoys[i])
-            }
-            myBoys.push({nombre:nombre.value,curso:curso.value,genero:genero.value,nota1:nota1.value,nota2:nota2.value,nota3:nota3.value,promedio:promedio,estado:estado})
-            localStorage.setItem('estudiantes',JSON.stringify(myBoys))
-            pintar()
+        myBoys=[]
+        myBoys.push({nombre:nombre.value,curso:curso.value,genero:genero.value,nota1:nota1.value,nota2:nota2.value,nota3:nota3.value,promedio:promedio,estado:estado})
+        localStorage.setItem('estudiantes',JSON.stringify(myBoys))
+        pintar()
+        limpiar()
+       
+}else{
+        myBoys=[]
+        for(i=0;i<lista.length;i++){
+            myBoys.push(lista[i])
+            console.log(myBoys[i])
         }
+        myBoys.push({nombre:nombre.value,curso:curso.value,genero:genero.value,nota1:nota1.value,nota2:nota2.value,nota3:nota3.value,promedio:promedio,estado:estado})
+        localStorage.setItem('estudiantes',JSON.stringify(myBoys))
+        pintar()
+        limpiar()
+    }
+    }
+   
   
     
+    
+})
+
+function limpiar(){
     const modal = bootstrap.Modal.getInstance(myModal);    
     modal.hide();
     nombre.value=''
@@ -46,8 +53,7 @@ registrar.addEventListener('click',()=>{
     nota1.value=''
     nota2.value=''
     nota3.value=''
-})
-
+}
 function pintar(){
     lista=JSON.parse(localStorage.getItem('estudiantes'))
         myBoys=[]
